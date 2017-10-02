@@ -1,7 +1,8 @@
 RPI kube-state-metrics ChangeLog
 =================================
 
-# Version 0.1.0 (06/23/2017)
+# Version 0.1.0 (10/02/2017)
 
-- Add kube-state-metrics 0.5.0
+- Add kube-state-metrics 1.0.1
+- Use GitlabCI for continuous integration
 - Based on Resin Raspbian
