@@ -25,7 +25,7 @@ build:app:
     - ls binaries
   artifacts:
     paths:
-      - binaries
+      - binaries/
 
 development:
   stage: deploy
