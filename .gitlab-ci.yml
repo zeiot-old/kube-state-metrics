@@ -9,11 +9,12 @@ services:
   - docker:dind
 
 stages:
+  - compile
   - build
-  - deploy
+  - release
 
-build:app:
-  stage: build
+compile:app:
+  stage: compile
   image: golang:1.9
   script:
     - git clone https://github.com/kubernetes/kube-state-metrics $GOPATH/src/k8s.io/kube-state-metrics
@@ -22,15 +23,15 @@ build:app:
     - go get github.com/tools/godep
     - GOARCH=arm make build
     - ls -al
-    - mkdir build && cp kube-state-metrics build/ && ls build
+    - cp kube-state-metrics ${CI_PROJECT_DIR}/
   artifacts:
     when: on_success
     expire_in: 1 day 
     paths:
-      - build/*
+      - kube-state-metrics
 
-development:
-  stage: deploy
+build:master:
+  stage: build
   dependencies:
     - build:app
   script:
@@ -42,8 +43,8 @@ development:
   only:
     - master
 
-testing:
-  stage: deploy
+build:branch:
+  stage: build
   script:
     - docker login -u gitlab-ci-token -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
     - cp kube-state-metrics 1.0/kube-state-metrics
@@ -54,8 +55,8 @@ testing:
   except:
     - master
 
-stable:
-  stage: deploy
+release:master:
+  stage: release
   script:
     - export VERSION=$(grep ' VERSION' 1.0/Dockerfile|awk -F" " '{ print $3 }')
     - echo ${VERSION}
@@ -65,3 +66,4 @@ stable:
     - docker push "$CI_REGISTRY_IMAGE:v${VERSION}"
   only:
     - tags
+
