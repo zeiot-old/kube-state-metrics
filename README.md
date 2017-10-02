@@ -1,7 +1,6 @@
 # RPI Kube-state-metrics
 
-* Master : [![Circle CI](https://circleci.com/gh/zeiot/rpi-kube-state-metrics/tree/master.svg?style=svg)](https://circleci.com/gh/zeiot/rpi-kube-state-metrics/tree/master) [![Build Status](https://travis-ci.org/zeiot/rpi-kube-state-metrics.svg?branch=master)](https://travis-ci.org/zeiot/rpi-kube-state-metrics)
-* Develop : [![Circle CI](https://circleci.com/gh/zeiot/rpi-kube-state-metrics/tree/develop.svg?style=svg)](https://circleci.com/gh/zeiot/rpi-kube-state-metrics/tree/develop) [![Build Status](https://travis-ci.org/zeiot/rpi-kube-state-metrics.svg?branch=develop)](https://travis-ci.org/zeiot/rpi-kube-state-metrics)
+* Master : [![pipeline status](https://gitlab.com/zeiot/rpi-kube-state-metrics/badges/master/pipeline.svg)](https://gitlab.com/zeiot/rpi-kube-state-metrics/commits/master)
 
 Docker image of [kube-state-metrics][] to use on a [Raspberry PI][].
 
