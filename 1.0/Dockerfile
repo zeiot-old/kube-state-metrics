@@ -9,6 +9,6 @@ ENV KUBE_STATE_METRICS_VERSION 1.0.1
 
 ADD kube-state-metrics-arm /usr/bin/kube-state-metrics
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT [ "/usr/bin/kube-state-metrics" ]
