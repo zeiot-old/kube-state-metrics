@@ -21,11 +21,10 @@ build:app:
     - git checkout v${VERSION}
     - ARM=arch make build
     - ls
-    - mkdir binaries/ && cp kube-state-metrics binaries
-    - ls binaries
+    - mkdir binaries/ && cp kube-state-metrics binaries && ls binaries
   artifacts:
     paths:
-      - binaries/
+    - binaries/
 
 development:
   stage: deploy
