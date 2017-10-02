@@ -19,11 +19,15 @@ build:app:
     - git clone https://github.com/kubernetes/kube-state-metrics $GOPATH/src/k8s.io/kube-state-metrics
     - cd $GOPATH/src/k8s.io/kube-state-metrics
     - git checkout v${VERSION}
+    - go get github.com/tools/godep
     - GOARCH=arm make build
-    - ls -al kube-state-metrics
+    - ls -al
+    - mkdir build && cp kube-state-metrics build/ && ls build
   artifacts:
+    when: on_success
+    expire_in: 1 day 
     paths:
-    - kube-state-metrics
+      - build/*
 
 development:
   stage: deploy
