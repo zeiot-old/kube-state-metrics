@@ -19,8 +19,8 @@ build:app:
     - git clone https://github.com/kubernetes/kube-state-metrics $GOPATH/src/k8s.io/kube-state-metrics
     - cd $GOPATH/src/k8s.io/kube-state-metrics
     - git checkout v${VERSION}
-    - ARM=arch make build
-    - ls
+    - GOARCH=arm make build
+    - ls -al kube-state-metrics
   artifacts:
     paths:
     - kube-state-metrics
