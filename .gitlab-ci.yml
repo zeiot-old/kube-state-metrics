@@ -1,74 +1,85 @@
+# Copyright (C) 2016-2018 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
-variables:
-  DOCKER_DRIVER: overlay
-  VERSION: 1.2.0
-  VERSION_DIR: 1.2
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-image: docker:git
+image: docker:stable
 
 services:
   - docker:dind
 
-stages:
-  - compile
-  - build
-  - release
+variables:
+  DOCKER_DRIVER: overlay2
 
-compile:app:
-  stage: compile
-  image: golang:1.9
-  script:
-    - git clone https://github.com/kubernetes/kube-state-metrics $GOPATH/src/k8s.io/kube-state-metrics
-    - cd $GOPATH/src/k8s.io/kube-state-metrics
-    - git checkout v${VERSION}
-    - go get github.com/tools/godep
-    - GOARCH=arm make build
-    - ls -al
-    - cp kube-state-metrics ${CI_PROJECT_DIR}/
-  artifacts:
-    when: on_success
-    expire_in: 1 day 
-    paths:
-      - kube-state-metrics
+before_script:
+  - docker info
 
-build:master:
-  stage: build
-  dependencies:
-    - compile:app
-  script:
+.docker_gitlab: &docker_gitlab
+  before_script:
     - docker login -u gitlab-ci-token -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
-    - ls
-    - cp kube-state-metrics ${VERSION_DIR}/kube-state-metrics
-    - docker build -t "$CI_REGISTRY_IMAGE:latest" ${VERSION_DIR}
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+
+.docker_hub: &docker_hub
+  before_script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+build:gitlab:
+  <<: *docker_gitlab
+  stage: build
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE:1.3.arm.latest" 1.3 -f 1.3/Dockerfile.arm
+    - docker push "$CI_REGISTRY_IMAGE:1.3.arm.latest"
+    - docker build -t "$CI_REGISTRY_IMAGE:1.3.arm64.latest" 1.3 -f 1.3/Dockerfile.arm64
+    - docker push "$CI_REGISTRY_IMAGE:1.3.arm64.latest"
   only:
     - master
 
-build:branch:
+build:hub:
+  <<: *docker_hub
   stage: build
-  dependencies:
-    - compile:app
   script:
-    - docker login -u gitlab-ci-token -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
-    - cp kube-state-metrics ${VERSION_DIR}/kube-state-metrics
-    - docker build -t "$CI_REGISTRY_IMAGE:${CI_COMMIT_REF_SLUG}" ${VERSION_DIR}
-    - docker push "$CI_REGISTRY_IMAGE:${CI_COMMIT_REF_SLUG}"
+    - docker build -t "zeiot/$CI_PROJECT_NAME:1.3.arm.latest" 1.3 -f 1.3/Dockerfile.arm
+    - docker push "zeiot/$CI_PROJECT_NAME:1.3.arm.latest"
+    - docker build -t "zeiot/$CI_PROJECT_NAME:1.3.arm64.latest" 1.3 -f 1.3/Dockerfile.arm64
+    - docker push "zeiot/$CI_PROJECT_NAME:1.3.arm64.latest"
   only:
-    - branches
-  except:
     - master
 
-release:master:
-  stage: release
-  dependencies:
-    - compile:app
+deploy:gitlab:
+  <<: *docker_gitlab
+  stage: deploy
   script:
-    - export VERSION=$(grep ' VERSION' ${VERSION_DIR}/Dockerfile|awk -F" " '{ print $3 }')
+    - export VERSION=$(grep ' VERSION' 1.3/Dockerfile.arm|awk -F" " '{ print $3 }')
     - echo ${VERSION}
-    - docker login -u gitlab-ci-token -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
-    - cp kube-state-metrics ${VERSION_DIR}/kube-state-metrics
-    - docker build -t "$CI_REGISTRY_IMAGE:v${VERSION}" ${VERSION_DIR}
-    - docker push "$CI_REGISTRY_IMAGE:v${VERSION}"
+    - docker build -t "$CI_REGISTRY_IMAGE:v${VERSION}.arm" 1.3 -f 1.3/Dockerfile.arm
+    - docker push "$CI_REGISTRY_IMAGE:v${VERSION}.arm"
+    - export VERSION=$(grep ' VERSION' 1.3/Dockerfile.arm64|awk -F" " '{ print $3 }')
+    - echo ${VERSION}
+    - docker build -t "$CI_REGISTRY_IMAGE:v${VERSION}.arm64" 1.3 -f 1.3/Dockerfile.arm64
+    - docker push "$CI_REGISTRY_IMAGE:v${VERSION}.arm64"
+  only:
+    - tags
+
+deploy:hub:
+  <<: *docker_hub
+  stage: deploy
+  script:
+    - export VERSION=$(grep ' VERSION' 1.3/Dockerfile.arm|awk -F" " '{ print $3 }')
+    - echo ${VERSION}
+    - docker build -t "zeiot/$CI_PROJECT_NAME:v${VERSION}.arm" 1.3 -f 1.3/Dockerfile.arm
+    - docker push "zeiot/$CI_PROJECT_NAME:v${VERSION}.arm"
+    - export VERSION=$(grep ' VERSION' 1.3/Dockerfile.arm64|awk -F" " '{ print $3 }')
+    - echo ${VERSION}
+    - docker build -t "zeiot/$CI_PROJECT_NAME:v${VERSION}.arm64" 1.3 -f 1.3/Dockerfile.arm64
+    - docker push "zeiot/$CI_PROJECT_NAME:v${VERSION}.arm64"
   only:
     - tags
 
