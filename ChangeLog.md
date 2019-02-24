@@ -1,5 +1,9 @@
 # RPI kube-state-metrics ChangeLog
 
+## Version 1.1.0 (02/24/2019)
+
+- Use version 1.4.0
+
 ## Version 1.0.0 (05/15/2018)
 
 - Multi arch support (arm and arm64)
