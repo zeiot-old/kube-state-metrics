@@ -16,8 +16,9 @@
 # AUTHOR:         Nicolas Lamirault <nicolas.lamirault@gmail.com>
 # DESCRIPTION:    zeiot/rpi-kube-state-metrics
 
+FROM balenalib/armv7hf-alpine:3.9
 # FROM balenalib/armv7hf-debian:stretch
-FROM resin/armv7hf-debian:stretch
+# FROM resin/armv7hf-debian:stretch
 
 LABEL summary="KubeStateMetrics for ARM" \
       description="KubeStateMetrics for ARM devices" \
@@ -27,11 +28,11 @@ LABEL summary="KubeStateMetrics for ARM" \
 
 ENV KUBE_STATE_METRICS_VERSION 1.4.0
 
-RUN [ "cross-build-start" ]
+# RUN [ "cross-build-start" ]
 
 ADD kube-state-metrics-arm /usr/bin/kube-state-metrics
 
-RUN [ "cross-build-end" ]
+# RUN [ "cross-build-end" ]
 
 EXPOSE      80
 
