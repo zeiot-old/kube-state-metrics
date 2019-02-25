@@ -2,10 +2,12 @@
 
 ## Version 1.1.0 (02/24/2019)
 
+- Add release 1.5.0
+
+## Version 1.0.0 (02/24/2019)
+
 - Use version 1.4.0
-
-## Version 1.0.0 (05/15/2018)
-
+- Migrate to Balenalib Alpine as the Docker base images
 - Multi arch support (arm and arm64)
 - Add version 1.3.x
 
