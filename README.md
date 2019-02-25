@@ -1,8 +1,8 @@
-# RPI Kube-state-metrics
+# ARM Kube-state-metrics
 
-* Master : [![pipeline status](https://gitlab.com/zeiot/rpi-kube-state-metrics/badges/master/pipeline.svg)](https://gitlab.com/zeiot/rpi-kube-state-metrics/commits/master)
+* Master : [![pipeline status](https://gitlab.com/zeiot/kube-state-metrics/badges/master/pipeline.svg)](https://gitlab.com/zeiot/kube-state-metrics/commits/master)
 
-Docker image of [kube-state-metrics][] to use on a [Raspberry PI][].
+Docker image of [kube-state-metrics][] to use on a ARM devices
 
 Configure binfmt-support on the Docker host (works locally or remotely, i.e: using boot2docker):
 
@@ -19,7 +19,7 @@ Or build :
 
 # Supported tags
 
-* [![](https://images.microbadger.com/badges/version/zeiot/rpi-kube-state-metrics:0.5.0.svg)](https://microbadger.com/images/zeiot/rpi-kube-state-metrics:0.5.0 "Get your own version badge on microbadger.com")
+* [![](https://images.microbadger.com/badges/version/zeiot/kube-state-metrics:0.5.0.svg)](https://microbadger.com/images/zeiot/kube-state-metrics:0.5.0 "Get your own version badge on microbadger.com")
 
 
 ## License
@@ -37,5 +37,4 @@ A [ChangeLog.md](ChangeLog.md) is available.
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
-[Raspberry PI]: https://www.raspberrypi.org/
 [kube-state-metrics]: https://github.com/kubernetes/kube-state-metrics

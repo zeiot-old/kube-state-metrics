@@ -14,7 +14,7 @@
 
 # VERSION 1.4.0
 # AUTHOR:         Nicolas Lamirault <nicolas.lamirault@gmail.com>
-# DESCRIPTION:    zeiot/rpi-kube-state-metrics
+# DESCRIPTION:    zeiot/kube-state-metrics
 
 FROM balenalib/aarch64-alpine:3.9
 # FROM balenalib/aarch64-debian:stretch
@@ -22,8 +22,8 @@ FROM balenalib/aarch64-alpine:3.9
 
 LABEL summary="KubeStateMetrics for ARM" \
       description="KubeStateMetrics for ARM devices" \
-      name="zeiot/rpi-kube-state-metrics" \
-      url="https://github.com/zeiot/rpi-kube-state-metrics" \
+      name="zeiot/kube-state-metrics" \
+      url="https://github.com/zeiot/kube-state-metrics" \
       maintainer="Nicolas Lamirault <nicolas.lamirault@gmail.com>"
 
 ENV KUBE_STATE_METRICS_VERSION 1.4.0
