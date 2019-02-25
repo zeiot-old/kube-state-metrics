@@ -16,6 +16,7 @@
 # AUTHOR:         Nicolas Lamirault <nicolas.lamirault@gmail.com>
 # DESCRIPTION:    zeiot/rpi-kube-state-metrics
 
+# FROM balenalib/aarch64-debian:stretch
 FROM resin/aarch64-debian:stretch
 
 LABEL summary="KubeStateMetrics for ARM" \
