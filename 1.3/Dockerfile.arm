@@ -32,8 +32,9 @@ ADD kube-state-metrics-arm /usr/bin/kube-state-metrics
 
 RUN [ "cross-build-end" ]
 
-EXPOSE      80
+EXPOSE      8080
+EXPOSE      8081
 
 USER        nobody
 
-ENTRYPOINT  [ "/usr/bin/kube-state-metrics" ]
+ENTRYPOINT  [ "/usr/bin/kube-state-metrics", "--port=8080", "--telemetry-port=8081" ]
