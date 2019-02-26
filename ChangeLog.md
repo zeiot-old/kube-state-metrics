@@ -2,7 +2,7 @@
 
 ## Version 1.1.1 (02/26/2019)
 
-- Fix: ports of the 1.2.0 version
+- Fix: ports of the 1.3.0 version
 
 ## Version 1.1.0 (02/24/2019)
 
