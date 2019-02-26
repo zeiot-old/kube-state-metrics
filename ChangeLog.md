@@ -1,5 +1,9 @@
 # RPI kube-state-metrics ChangeLog
 
+## Version 1.1.1 (02/26/2019)
+
+- Fix: ports of the 1.2.0 version
+
 ## Version 1.1.0 (02/24/2019)
 
 - Add release 1.5.0
