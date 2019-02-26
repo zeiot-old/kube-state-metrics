@@ -28,11 +28,11 @@ LABEL summary="KubeStateMetrics for ARM" \
 
 ENV KUBE_STATE_METRICS_VERSION 1.4.0
 
-# RUN [ "cross-build-start" ]
+RUN [ "cross-build-start" ]
 
 ADD kube-state-metrics-arm /usr/bin/kube-state-metrics
 
-# RUN [ "cross-build-end" ]
+RUN [ "cross-build-end" ]
 
 EXPOSE      8080
 EXPOSE      8081
